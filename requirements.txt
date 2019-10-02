@@ -1,0 +1,1 @@
+-e git+https://github.com/dhocker/athomeutils.git#egg=athomeutils
