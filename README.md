@@ -15,6 +15,28 @@ The app requires Python 3 (>=3.6). The simplest setup is to create a
 VENV using the requirements.txt file.
 
 ## Configuration
+Both the server and the test client use the dmx_emulator.conf file for
+configuration. This file is JSON formatted and looks like this:
+
+    {
+        "num_channels": 512,
+        "host": "localhost",
+        "port": 5555,
+        "polling_interval": 30,
+        "log_console": "true",
+        "log_level": "debug",
+        "log_file": "dmx-emulator.log"
+    }
+
+| Key | Value | Description |
+|-----|-------|-------------|
+| num_channels | int | 1-512. The maximum number of DMX channels in a frame. |
+| host | string | Test client only. DMX emulator host name. |
+| port | int | TCP port number used by DMX emulator. |
+| polling_interval | int | DMX emulator polling time in milliseconds. |
+| log_console | bool | DMX emulator only. Routes logging to console. |
+| log_level | string | DMX emulator only. debug, warn, error or info. |
+| log_file | string | DMX emulator only. Full path to log file. |
 
 ## Quick Test
 Open a terminal window and activate the VENV. Start the emulator.

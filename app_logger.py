@@ -11,7 +11,7 @@
 
 import logging
 import logging.handlers
-# import configuration
+from configuration import Configuration
 
 
 ########################################################################
@@ -22,8 +22,7 @@ def EnableEngineLogging():
     logdateformat = '%Y-%m-%d %H:%M:%S'
 
     # Logging level override
-    # log_level_override = configuration.Configuration.LogLevel().lower()
-    log_level_override = "debug"
+    log_level_override = Configuration.cfg_log_level
     if log_level_override == "debug":
         loglevel = logging.DEBUG
     elif log_level_override == "info":
@@ -41,23 +40,26 @@ def EnableEngineLogging():
     formatter = logging.Formatter(logformat, datefmt=logdateformat)
 
     # Do we log to console?
-    ch = logging.StreamHandler()
-    ch.setLevel(loglevel)
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
+    if Configuration.log_console():
+        ch = logging.StreamHandler()
+        ch.setLevel(loglevel)
+        ch.setFormatter(formatter)
+        logger.addHandler(ch)
 
     # Do we log to a file?
-    # logfile = configuration.Configuration.Logfile()
-    logfile = ""
+    logfile = Configuration.log_file()
     if logfile != "":
         # To file
         fh = logging.handlers.TimedRotatingFileHandler(logfile, when='midnight', backupCount=3)
         fh.setLevel(loglevel)
         fh.setFormatter(formatter)
         logger.addHandler(fh)
-        logger.debug("Logging to file: %s", logfile)
 
-    logger.debug("Logging to console")
+    # After defining logs, record what was defined
+    if Configuration.log_console():
+        logger.debug("Logging to console")
+    if logfile:
+        logger.debug("Logging to file: %s", logfile)
 
 def getAppLogger():
     """

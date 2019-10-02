@@ -78,10 +78,16 @@ class Configuration():
                 cls.cfg_host = config["host"]
             if "port" in config:
                 cls.cfg_port = int(config["port"])
-            if "num_pixels" in config:
-                cls.cfg_num_channels = int(config["num_pixels"])
+            if "num_channels" in config:
+                cls.cfg_num_channels = int(config["num_channels"])
             if "polling_interval" in config:
                 cls.cfg_polling_interval = int(config["polling_interval"])
+            if "log_level" in config:
+                cls.cfg_log_level = config["log_level"].lower()
+            if "log_console" in config:
+                cls.cfg_log_console = config["log_console"].lower() == "true"
+            if "log_file" in config:
+                cls.cfg_log_file = config["log_file"]
         except Exception as ex:
             print("Unable to parse configuration file as JSON")
             print(str(ex))
